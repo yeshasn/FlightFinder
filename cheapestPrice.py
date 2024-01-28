@@ -160,10 +160,17 @@ def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateF
 def get_average_price(origin, destination, depDate, arrDate):
     prompt_input = """
     - You will be given a origin airport IATA code, a destination airport IATA code, a departure date, and an return date
-    - Your task is to determine the AVERAGE cost of a roundtrip airfare ticket with AMERICAN AIRLINES from the origin airport to the destination airport given that certain time of year
-    - The date will be formatted YYYY-mm-dd, so you can disregard the year.
+    - Your task is to determine the AVERAGE cost of a roundtrip airfare ticket with certain airlines from the origin airport to the destination airport given that certain date range
+    - The date will be formatted YYYY-mm-dd, so you CAN DISREGARD THE YEAR
 
-    - Your response should read: The average price of a flight from (origin) to (destination) is (average) during this time of the year.
+    - Your response should read: The average price of a flight from (origin) to (destination) with (airline) is (average) during this date range.
+
+    Do it with the following airlines
+    - United Airlines
+    - Delta Airlines
+    - Southwest Airlines
+
+    So in total you should have 3 output statements
     """
 
     user_input = rf'''
@@ -183,7 +190,7 @@ def get_average_price(origin, destination, depDate, arrDate):
                                                   {"role": "user",
                                                    "content": user_input}
                                               ],
-                                              temperature=0.5,
+                                              temperature=0.2,
                                               top_p=1,
                                               frequency_penalty=0.0,
                                               presence_penalty=0.2)
