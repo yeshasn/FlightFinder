@@ -284,7 +284,7 @@ def getHotels(dest, checkin, checkout):
     url = "https://api.makcorps.com/city"
     params = {
         'cityid': geo_document_ids[0],
-        'pagination': '1',
+        'pagination': '0',
         'cur': 'USD',
         'rooms': '1',
         'adults': '1',
@@ -332,6 +332,27 @@ def getHotels(dest, checkin, checkout):
     else:
         # Print an error message if the request was not successful
         print(f"Error: {response.status_code}, {response.text}")
+
+def get_image(hotel_name):
+    api_key = 'AIzaSyBaiHeqL8Re5CBib94qjWauL7vAsCFcbHY'
+    cx = 'd4a5d14496aa14057'
+    query = hotel_name
+
+    # Define the API endpoint
+    url = f'https://www.googleapis.com/customsearch/v1?q={query}&key={api_key}&cx={cx}&searchType=image'
+
+    # Make the API request
+    response = requests.get(url)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Extract the URL of the first image from the response
+        first_image_url = response.json().get('items', [])[0]['link']
+        
+        # Print the URL or save it as needed
+        print(first_image_url)
+    else:
+        print(f"Error: {response.status_code} - {response.text}")
 
 # # TESTING CODE
 # s = time.time()
