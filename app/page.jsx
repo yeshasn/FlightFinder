@@ -92,6 +92,8 @@ export default function Home() {
 
   const [departureObj, setDepartureObj] = useState(null);
   const [arrivalObj, setArrivalObj] = useState(null);
+  console.log("Departure date:", departureDateFlexibility);
+  console.log("Arrival date:", arrivalDateFlexibility)
 
   const router = useRouter();
 
@@ -277,7 +279,7 @@ export default function Home() {
                   <div className="flex items-center gap-x-2">
                     <div>Within</div>
                     <input
-                      value={departureDateFlexibility}
+                      value={arrivalDateFlexibility}
                       onChange={(e) => {
                         setArrivalDateFlexibility(e.target.value);
                         adjustInputWidth(e.target);
