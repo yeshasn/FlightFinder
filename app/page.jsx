@@ -46,10 +46,16 @@ const InputField = ({ onChange }) => {
 const ProgressBar = ({ progress }) => {
   return (
     <div className="relative w-full h-[4px] bg-[#D4D4D4] rounded-[38px] mb-4">
-      <span
-        className={`absolute left-0 top-0 h-full rounded-[38px] bg-black`}
+      <motion.span
+        className={`absolute left-0 top-0 h-full rounded-[38px] bg-gradient-to-r from-[#FEECC0] via-[#D1889B] to-[#5E376C]`}
         style={{ width: `${progress}%` }}
-      ></span>
+        initial={{
+          opacity: 0,
+          x: -100,
+          transition: { delay: 2, duration: 3 },
+        }}
+        animate={{ opacity: 1, x: 0 }}
+      ></motion.span>
     </div>
   );
 };
@@ -164,7 +170,7 @@ export default function Home() {
               initial={{
                 opacity: 0,
                 y: 70,
-                transition: { delay: 1, duration: 1 },
+                transition: { delay: 1, duration: 2 },
               }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -191,7 +197,7 @@ export default function Home() {
               initial={{
                 opacity: 0,
                 y: 70,
-                transition: { delay: 1, duration: 1 },
+                transition: { delay: 1, duration: 2 },
               }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -238,7 +244,7 @@ export default function Home() {
               initial={{
                 opacity: 0,
                 y: 70,
-                transition: { delay: 1, duration: 1 },
+                transition: { delay: 1, duration: 2 },
               }}
               animate={{ opacity: 1, y: 0 }}
               exit={{
