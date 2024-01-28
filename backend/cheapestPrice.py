@@ -10,7 +10,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-
 os.environ["OPENAI_API_KEY"] = "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"
 
 # Keep the dates in format YYYY-mm-dd
@@ -143,6 +142,7 @@ city_dict = {
     "SLA": "Salta",
 }
 
+
 def get_dates(date, num_days):
     num_days = int(num_days)
     print("Date:", date)
@@ -202,12 +202,11 @@ def getDF(dest, origin, depDate, arrDate, flexDepDate, flexArrDate):
 def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateFlex, depLocFlex, arrivalLocFlex):
     print(destination, origin, depDate, arrDate, depDateFlex,
           arrDateFlex, depLocFlex, arrivalLocFlex)
-    
+
     print("type:" + str(type(depLocFlex)))
 
     fin_dfo, fin_dfr = getDF(destination, origin, depDate,
                              arrDate, depDateFlex, arrDateFlex)
-
 
     if depLocFlex == "true":
         temp_dfo, temp_dfr = getDF(
@@ -236,10 +235,17 @@ def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateF
 def get_average_price(origin, destination, depDate, arrDate):
     prompt_input = """
     - You will be given a origin airport IATA code, a destination airport IATA code, a departure date, and an return date
-    - Your task is to determine the AVERAGE cost of a roundtrip airfare ticket with AMERICAN AIRLINES from the origin airport to the destination airport given that certain time of year
-    - The date will be formatted YYYY-mm-dd, so you can disregard the year.
+    - Your task is to determine the AVERAGE cost of a roundtrip airfare ticket with certain airlines from the origin airport to the destination airport given that certain date range
+    - The date will be formatted YYYY-mm-dd, so you CAN DISREGARD THE YEAR
 
-    - Your response should read: The average price of a flight from (origin) to (destination) is (average) during this time of the year.
+    - Your response should read: The average price of a flight from (origin) to (destination) with (airline) is (average) during this date range.
+
+    Do it with the following airlines
+    - United Airlines
+    - Delta Airlines
+    - Southwest Airlines
+
+    So in total you should have 3 output statements
     """
 
     user_input = rf'''
@@ -259,20 +265,22 @@ def get_average_price(origin, destination, depDate, arrDate):
                                                   {"role": "user",
                                                    "content": user_input}
                                               ],
-                                              temperature=0.5,
+                                              temperature=0.2,
                                               top_p=1,
                                               frequency_penalty=0.0,
                                               presence_penalty=0.2)
 
     resp = response.choices[0].message.content
     # print(resp)
-    return resp
+    return jsonify({"response": resp})
+
 
 def getHotels(dest, checkin, checkout):
     url = "https://api.makcorps.com/mapping"
     params = {
         'api_key': '65b610a7e731c164ea217018',
-        'name': city_dict[dest] #change this based on some value saved from the user's destination
+        # change this based on some value saved from the user's destination
+        'name': city_dict[dest]
     }
 
     response = requests.get(url, params=params)
@@ -341,6 +349,7 @@ def getHotels(dest, checkin, checkout):
         # Print an error message if the request was not successful
         print(f"Error: {response.status_code}, {response.text}")
 
+
 def get_image(hotel_name):
     query = hotel_name
 
@@ -354,7 +363,7 @@ def get_image(hotel_name):
     if response.status_code == 200:
         # Extract the URL of the first image from the response
         first_image_url = response.json().get('items', [])[0]['link']
-        
+
         # Print the URL or save it as needed
         print(first_image_url)
     else:
@@ -373,6 +382,7 @@ def get_image(hotel_name):
 # print(e-s)
 
 # d1.head().to_json('example.json', orient="records")
+
 
 # cheapest = d1.iloc[0]["Price ($)"] + d2.iloc[0]["Price ($)"]
 # print(get_average_price("DFW", "BOS", "2024-02-05", "2024-02-12"))
