@@ -633,6 +633,10 @@ video {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -681,6 +685,12 @@ video {
 .h-screen {
   height: 100vh;
 }
+.h-12 {
+  height: 3rem;
+}
+.h-24 {
+  height: 6rem;
+}
 .w-2\/3 {
   width: 66.666667%;
 }
@@ -702,6 +712,9 @@ video {
 }
 .w-screen {
   width: 100vw;
+}
+.w-12 {
+  width: 3rem;
 }
 .border-collapse {
   border-collapse: collapse;
@@ -850,6 +863,9 @@ video {
 .border-2 {
   border-width: 2px;
 }
+.border-b-2 {
+  border-bottom-width: 2px;
+}
 .border-\[\#D4D4D4\] {
   --tw-border-opacity: 1;
   border-color: rgb(212 212 212 / var(--tw-border-opacity));
@@ -861,6 +877,10 @@ video {
 .border-\[\#E63860\] {
   --tw-border-opacity: 1;
   border-color: rgb(230 56 96 / var(--tw-border-opacity));
+}
+.border-\[\#D9D9D9\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(217 217 217 / var(--tw-border-opacity));
 }
 .bg-\[\#D4D4D4\] {
   --tw-bg-opacity: 1;
@@ -901,6 +921,10 @@ video {
 .to-\[\#5E376C\] {
   --tw-gradient-to: #5E376C var(--tw-gradient-to-position);
 }
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
 .p-10 {
   padding: 2.5rem;
 }
@@ -930,8 +954,26 @@ video {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+.py-px {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
 .pb-8 {
   padding-bottom: 2rem;
+}
+.pb-20 {
+  padding-bottom: 5rem;
+}
+.pl-4 {
+  padding-left: 1rem;
 }
 .text-center {
   text-align: center;
