@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, useAnimation } from "framer-motion";
 import FlightsList from "../_components/flight-list/flights-list";
@@ -52,8 +52,50 @@ export default function FlightList() {
   const router = useRouter();
   const { departureLocations } = useAppContext();
   const controls = useAnimation();
+  const [formattedDeparture, setFormattedDeparture] = useState([]);
 
-  console.log("Departure Locations: ", departureLocations);
+  useEffect(() => {
+    if (departureLocations) {
+      setFormattedDeparture(departureLocations.map((flightData, index) => {
+
+        const originAirport = flightData["Origin"];
+        const destinationAirport = flightData["Destination"];
+        const price = flightData["Price ($)"];
+        const duration = flightData["Travel Time"];
+        const date = new Date(flightData["Departure datetime"]);
+        const departureTimestamp = new Date(flightData["Departure datetime"]);
+        const departureTime = departureTimestamp.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        const arrivalTime = new Date(
+          flightData["Arrival datetime"]
+        ).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+
+          // Get the day, month, and year
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // Note: January is 0
+        const year = date.getFullYear();
+
+        // Format the date as "M/D/YYYY"
+        const formattedDate = `${month}/${day}/${year}`;
+
+        console.log(formattedDate);
+
+        return {
+          id: index,
+          departureTime,
+          arrivalTime,
+          date: formattedDate,
+          duration,
+          airports: originAirport + " - " + destinationAirport,
+          price
+        }
+      }))
+    }
+  }, [departureLocations]);
+
+  console.log("Departure Locations: ", formattedDeparture);
 
   const handleSelect = () => {
     controls.start({ x: "-5%", transition: { duration: 0.2 } }).then(() => {
@@ -73,7 +115,7 @@ export default function FlightList() {
       >
         <FlightsList
           headerText="Top Departing Flights"
-          flightsData={flights}
+          flightsData={formattedDeparture}
           onSelect={handleSelect}
         />
       </motion.div>

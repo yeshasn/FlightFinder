@@ -2,6 +2,7 @@ import "./globals.css";
 
 import localFont from "@next/font/local";
 import { Baloo_Chettan_2 } from "next/font/google";
+import { AppWrapper } from "./context/AppContext";
 
 const balooChettan = Baloo_Chettan_2({
   subsets: ["latin"],
@@ -32,11 +33,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    <AppWrapper>
     <html
       lang="en"
       className={`${bogart.variable} ${balooChettan.variable} font-sans`}
     >
       <body>{children}</body>
     </html>
+    </AppWrapper>
   );
 }
