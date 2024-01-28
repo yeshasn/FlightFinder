@@ -124,6 +124,7 @@ def getDF(dest, origin, depDate, arrDate, flexDepDate, flexArrDate):
 # destination, origin, depDate, arrDate, depDateFlex, arrDateFlex, depLocFlex, arrivalLocFLex
 
 
+# RETURNS TWO JSONS - FIRST IS CHEAPEST DEPARTING FLIGHTS, SECOND IS CHEAPEST RETURNING FLIGHTS
 def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateFlex, depLocFlex, arrivalLocFlex):
     fin_dfo, fin_dfr = getDF(destination, origin, depDate,
                              arrDate, depDateFlex, arrDateFlex)
@@ -139,7 +140,12 @@ def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateF
         fin_dfo = fin_dfo.append(temp_dfo, ignore_index=True)
         fin_dfr = fin_dfr.append(temp_dfr, ignore_index=True)
 
-    return fin_dfo, fin_dfr
+    fin_dfo = fin_dfo.sort_values(by='Price ($)')
+    fin_dfr = fin_dfr.sort_values(by='Price ($)')
+
+    json_depart = fin_dfo.to_json(orient="records")
+    json_return = fin_dfr.to_json(orient="records")
+    return json_depart, json_return
 
 
 def get_average_price(origin, destination, depDate, arrDate):
@@ -178,19 +184,20 @@ def get_average_price(origin, destination, depDate, arrDate):
     return resp
 
 
-s = time.time()
-d1, d2 = get_final_price("BOS", "DFW", "2024-02-05",
-                         "2024-02-12", 0, 0, False, False)
-e = time.time()
-d1 = d1.sort_values(by='Price ($)')
-d2 = d2.sort_values(by='Price ($)')
-print(d1.head())
-print()
-print(d2.head())
-print(e-s)
+# # TESTING CODE
+# s = time.time()
+# d1, d2 = get_final_price("BOS", "DFW", "2024-02-05",
+#                          "2024-02-12", 0, 0, False, False)
+# e = time.time()
+# d1 = d1.sort_values(by='Price ($)')
+# d2 = d2.sort_values(by='Price ($)')
+# print(d1.head())
+# print()
+# print(d2.head())
+# print(e-s)
 
 # d1.head().to_json('example.json', orient="records")
 
-cheapest = d1.iloc[0]["Price ($)"] + d2.iloc[0]["Price ($)"]
+# cheapest = d1.iloc[0]["Price ($)"] + d2.iloc[0]["Price ($)"]
 print(get_average_price("DFW", "BOS", "2024-02-05", "2024-02-12"))
-print("You pay: " + str(cheapest))
+# print("You pay: " + str(cheapest))
