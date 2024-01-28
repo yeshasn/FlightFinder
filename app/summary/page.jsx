@@ -41,6 +41,14 @@ const Summary = () => {
             <div className="font-medium">Price: $5.12</div>
           </>
         </Widget>
+        <Widget iconSrc="/icons/departure-plane.svg" title="Price">
+          <>
+            <div>Name: {"Hilton"}</div>
+            <div>Checkin: 02/22/2024 9:00 AM</div>
+            <div>Checkout: 02/24/2024 5:00 PM</div>
+            <div className="font-medium">Price: $5.12</div>
+          </>
+        </Widget>
       </div>
     </div>
   );

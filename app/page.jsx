@@ -78,26 +78,16 @@ export default function Home() {
   const [selectedArrivalLocation, setSelectedArrivalLocation] = useState(null);
 
   const [selectedDepartureDate, setSelectedDepartureDate] = useState(null);
-  const [selectedArrivalDate, setSelectedArrivalDate] = useState(null);
+  const [selectedArrivalDate, setSelectedArrivalDate] = useSt;
+
+  const [departureObj, setDepartureObj] = useState(null);
+  const [arrivalObj, setArrivalObj] = useState(null);
 
   const fetchInfo = async () => {
-    console.log("yo");
-
     try {
       const formatDate = (date) => {
         return date.toISOString().split("T")[0];
       };
-
-      console.log(
-        "Input:",
-        `http://127.0.0.1:3000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
-          selectedDepartureDate
-        )}/${formatDate(selectedArrivalDate)}/${parseInt(
-          departureDateFlexibility
-        )}/${parseInt(
-          arrivalDateFlexibility
-        )}/${departureIsFlexible}/${arrivalIsFlexible}`
-      );
 
       const response = await axios.get(
         `http://127.0.0.1:3000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
@@ -107,21 +97,19 @@ export default function Home() {
         )}/${parseInt(
           arrivalDateFlexibility
         )}/${departureIsFlexible}/${arrivalIsFlexible}`
-
       );
-      console.log("Response", response);
 
-      const {data} = response;
+      const { data } = response;
 
       const formattedDeparture = JSON.parse(data["Departure"]);
       const formattedReturn = JSON.parse(data["Return"]);
 
-      console.log("Formatted formattedDeparture:", formattedDeparture);
-      console.log("Formatted Return:", formattedReturn);
-
-      console.log("Data:", data);
+      setDepartureObj(formattedDeparture);
+      setArrivalObj(formattedReturn);
     } catch (err) {
       console.log("Error:", err);
+
+      fetchInfo();
     }
   };
 

@@ -148,12 +148,12 @@ def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateF
                              arrDate, depDateFlex, arrDateFlex)
 
 
-    if depLocFlex == "True":
+    if depLocFlex == "true":
         temp_dfo, temp_dfr = getDF(
             destination, airport_dict[origin][0], depDate, arrDate, depDateFlex, arrDateFlex)
         fin_dfo = fin_dfo.append(temp_dfo, ignore_index=True)
         fin_dfr = fin_dfr.append(temp_dfr, ignore_index=True)
-    if arrivalLocFlex == "True":
+    if arrivalLocFlex == "true":
         temp_dfo, temp_dfr = getDF(
             airport_dict[destination][0], origin, depDate, arrDate, depDateFlex, arrDateFlex)
         fin_dfo = fin_dfo.append(temp_dfo, ignore_index=True)
