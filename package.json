@@ -20,6 +20,7 @@
     "react-select": "^5.8.0",
     "react-widgets": "^5.8.4",
     "react-widgets-tailwind": "^1.1.5",
+    "tailwind-merge": "^2.2.1",
     "tailwindcss-animation-delay": "^1.2.0"
   },
   "devDependencies": {
