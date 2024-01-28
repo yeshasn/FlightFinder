@@ -88,7 +88,7 @@ export default function Home() {
         return date.toISOString().split("T")[0];
       };
 
-      /* console.log(
+      console.log(
         "Input:",
         `http://127.0.0.1:5000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
           selectedDepartureDate
@@ -107,25 +107,24 @@ export default function Home() {
         )}/${parseInt(
           arrivalDateFlexibility
         )}/${departureIsFlexible}/${arrivalIsFlexible}`
-      );*/
-
-      const response = await axios.get(
-        "http://127.0.0.1:5000/priceinfojson/JFK/DFW/2024-02-06/2024-02-19/0/0/true/false"
       );
-
       console.log("Response", response);
 
       const data = await response.json();
+
+      const formattedData = JSON.parse(data);
+
+      const formattedDeparture = formattedData["Departure"];
+      const formattedReturn = formattedData["Return"];
+
+      console.log("Formatted formattedDeparture:", formattedDeparture);
+      console.log("Formatted Return:", formattedReturn);
 
       console.log("Data:", data);
     } catch (err) {
       console.log("Error:", err);
     }
   };
-
-  useEffect(() => {
-    fetchInfo();
-  }, []);
 
   const adjustInputWidth = (input) => {
     // Set the size to the length of the input's value (or placeholder if no value)
