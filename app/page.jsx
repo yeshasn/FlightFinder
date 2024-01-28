@@ -269,11 +269,11 @@ export default function Home() {
                     <input
                       value={departureDateFlexibility}
                       onChange={(e) => {
-                        setDepartureDateFlexibility(e.target.value);
+                        setArrivalDateFlexibility(e.target.value);
                         adjustInputWidth(e.target);
                       }}
                       onFocus={(e) => {
-                        setDepartureDateFlexibility("");
+                        setArrivalDateFlexibility("");
                         adjustInputWidth(e.target);
                       }}
                       placeholder="0"
