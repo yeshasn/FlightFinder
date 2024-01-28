@@ -1,4 +1,5 @@
 import os
+import requests
 import time
 from google_flight_analysis.scrape import *
 from openai import OpenAI
@@ -80,6 +81,66 @@ airport_dict = {
     "SLA": ["EZE", "AEP"],
 }
 
+city_dict = {
+    "ATL": "Atlanta",
+    "IAH": "Houston",
+    "LAX": "Los Angeles",
+    "JFK": "New York",
+    "ORD": "Chicago",
+    "DFW": "Dallas",
+    "DEN": "Denver",
+    "LAS": "Las Vegas",
+    "SEA": "Seattle",
+    "MIA": "Miami",
+    "CLT": "Charlotte",
+    "PHX": "Phoenix",
+    "MCO": "Orlando",
+    "MSP": "Minneapolis",
+    "BOS": "Boston",
+    "SFO": "San Francisco",
+    "EWR": "Newark",
+    "DTW": "Detroit",
+    "SLC": "Salt Lake City",
+    "PHL": "Philadelphia",
+    "MEM": "Memphis",
+    "CVG": "Cincinnati",
+    "LGA": "LaGuardia",
+    "TPA": "Tampa",
+    "MDW": "Midway",
+    "LHR": "London Heathrow",
+    "CDG": "Paris Charles de Gaulle",
+    "FRA": "Frankfurt",
+    "AMS": "Amsterdam",
+    "HKG": "Hong Kong",
+    "PVG": "Shanghai Pudong",
+    "SZX": "Shenzhen",
+    "CAN": "Guangzhou",
+    "DXB": "Dubai",
+    "DOH": "Doha",
+    "MCT": "Muscat",
+    "AUH": "Abu Dhabi",
+    "SIN": "Singapore",
+    "KUL": "Kuala Lumpur",
+    "BKK": "Bangkok",
+    "NRT": "Tokyo Narita",
+    "HND": "Tokyo Haneda",
+    "KIX": "Osaka Kansai",
+    "YYZ": "Toronto Pearson",
+    "YUL": "Montreal",
+    "YOW": "Ottawa",
+    "FCO": "Rome Fiumicino",
+    "MXP": "Milan Malpensa",
+    "CIA": "Rome Ciampino",
+    "DME": "Moscow Domodedovo",
+    "SVO": "Moscow Sheremetyevo",
+    "LED": "Saint Petersburg",
+    "GRU": "Sao Paulo Guarulhos",
+    "GIG": "Rio de Janeiro Galeao",
+    "CGH": "Sao Paulo Congonhas",
+    "EZE": "Buenos Aires Ezeiza",
+    "AEP": "Buenos Aires Aeroparque",
+    "SLA": "Salta",
+}
 
 def get_dates(date, num_days):
     first_date = date[:-1] + str(int(date[-1]) - num_days)
@@ -199,6 +260,78 @@ def get_average_price(origin, destination, depDate, arrDate):
     # print(resp)
     return resp
 
+def getHotels(dest, checkin, checkout):
+    url = "https://api.makcorps.com/mapping"
+    params = {
+        'api_key': '65b610a7e731c164ea217018',
+        'name': city_dict[dest] #change this based on some value saved from the user's destination
+    }
+
+    response = requests.get(url, params=params)
+
+    # Check if the request was successful (status code 200)    geo_document_ids = []
+    geo_document_ids = []
+    if response.status_code == 200:
+        # Parse JSON response
+        json_data_first = response.json()
+        # Print or use the parsed JSON data
+        for entry in json_data_first:
+            if entry.get("type") == "GEO":
+                geo_document_ids.append(entry["document_id"])
+    else:
+        # Print an error message if the request was not successful
+        print(f"Error: {response.status_code}, {response.text}")
+    url = "https://api.makcorps.com/city"
+    params = {
+        'cityid': geo_document_ids[0],
+        'pagination': '1',
+        'cur': 'USD',
+        'rooms': '1',
+        'adults': '1',
+        'checkin': checkin,
+        'checkout': checkout,
+        'api_key': '65b610a7e731c164ea217018'
+    }
+
+    response = requests.get(url, params=params)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Parse JSON response
+        json_data_second = response.json()
+        # Print or use the parsed JSON data
+        # Initialize empty lists to store vendor1 and name
+        vendors = []
+        names = []
+        prices = []
+
+        hotel_info = []
+
+        # Iterate through the data and extract relevant information
+        for entry in json_data_second:
+            if "vendor1" in entry and "name" in entry and "price1" in entry:
+                hotel_info.append({
+                    "vendor": entry["vendor1"],
+                    "name": entry["name"],
+                    "price": float(entry["price1"].replace("$", "").replace(",", ""))
+                })
+
+        # Sort the hotel_info list based on price in ascending order
+        sorted_hotels = sorted(hotel_info, key=lambda x: x["price"])
+
+        # Extract only the vendors and names of the five cheapest hotels
+        cheapest_vendors = [hotel["vendor"] for hotel in sorted_hotels[:5]]
+        cheapest_names = [hotel["name"] for hotel in sorted_hotels[:5]]
+        cheapest_prices = [hotel["price"] for hotel in sorted_hotels[:5]]
+
+        # do sometihng with the lists here
+        # print("Cheapest Vendors:", cheapest_vendors)
+        # print("Cheapest Names:", cheapest_names)
+        # print("Cheapest Prices:", cheapest_prices)
+
+    else:
+        # Print an error message if the request was not successful
+        print(f"Error: {response.status_code}, {response.text}")
 
 # # TESTING CODE
 # s = time.time()
