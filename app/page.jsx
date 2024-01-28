@@ -16,6 +16,8 @@ import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker, { Calendar } from "react-modern-calendar-datepicker";
 import { DateTimePicker } from "react-widgets";
 import axios from "axios";
+import { useAppContext } from "./context/AppContext";
+import { useRouter } from "next/navigation";
 
 const InputField = ({ onChange }) => {
   const [didSelect, setDidSelect] = useState(false);
@@ -73,6 +75,8 @@ const InfoWidget = ({ title, stepNumber, children }) => {
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(1);
 
+  const { setDepartureLocations, setArrivalLocations } = useAppContext();
+
   const [departureIsFlexible, setDepartureIsFlexible] = useState(false);
   const [arrivalIsFlexible, setArrivalIsFlexible] = useState(false);
 
@@ -88,6 +92,8 @@ export default function Home() {
 
   const [departureObj, setDepartureObj] = useState(null);
   const [arrivalObj, setArrivalObj] = useState(null);
+
+  const router = useRouter();
 
   const fetchInfo = async () => {
     try {
@@ -110,8 +116,10 @@ export default function Home() {
       const formattedDeparture = JSON.parse(data["Departure"]);
       const formattedReturn = JSON.parse(data["Return"]);
 
-      setDepartureObj(formattedDeparture);
-      setArrivalObj(formattedReturn);
+      setDepartureLocations(formattedDeparture);
+      setArrivalLocations(formattedReturn);
+
+      router.push("/departing-flights");
     } catch (err) {
       console.log("Error:", err);
 

@@ -3,6 +3,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { motion, useAnimation } from "framer-motion";
 import FlightsList from "../_components/flight-list/flights-list";
+import { useAppContext } from "../context/AppContext";
 
 // Sample data structure for flights, which should ideally come from a state or props
 const flights = [
@@ -49,7 +50,10 @@ const flights = [
 // FlightList component
 export default function FlightList() {
   const router = useRouter();
+  const { departureLocations } = useAppContext();
   const controls = useAnimation();
+
+  console.log("Departure Locations: ", departureLocations);
 
   const handleSelect = () => {
     controls.start({ x: "-5%", transition: { duration: 0.2 } }).then(() => {
@@ -57,6 +61,7 @@ export default function FlightList() {
       controls.start({ x: "0%", transition: { duration: 0.2 } });
     });
   };
+
   return (
     <div className="flex flex-col items-center p-4 justify-center w-screen h-screen font-bogart text-white bg-gradient-to-b from-[#FEECC0] via-[#D1889B] to-[#5E376C]">
       <motion.div
