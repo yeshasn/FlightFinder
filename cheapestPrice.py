@@ -142,6 +142,7 @@ city_dict = {
     "SLA": "Salta",
 }
 
+
 def get_dates(date, num_days):
     first_date = date[:-1] + str(int(date[-1]) - num_days)
     date_list = []
@@ -258,13 +259,15 @@ def get_average_price(origin, destination, depDate, arrDate):
 
     resp = response.choices[0].message.content
     # print(resp)
-    return resp
+    return jsonify({"response": resp})
+
 
 def getHotels(dest, checkin, checkout):
     url = "https://api.makcorps.com/mapping"
     params = {
         'api_key': '65b610a7e731c164ea217018',
-        'name': city_dict[dest] #change this based on some value saved from the user's destination
+        # change this based on some value saved from the user's destination
+        'name': city_dict[dest]
     }
 
     response = requests.get(url, params=params)
@@ -333,6 +336,7 @@ def getHotels(dest, checkin, checkout):
         # Print an error message if the request was not successful
         print(f"Error: {response.status_code}, {response.text}")
 
+
 def get_image(hotel_name):
     query = hotel_name
 
@@ -346,7 +350,7 @@ def get_image(hotel_name):
     if response.status_code == 200:
         # Extract the URL of the first image from the response
         first_image_url = response.json().get('items', [])[0]['link']
-        
+
         # Print the URL or save it as needed
         print(first_image_url)
     else:
@@ -365,6 +369,7 @@ def get_image(hotel_name):
 # print(e-s)
 
 # d1.head().to_json('example.json', orient="records")
+
 
 # cheapest = d1.iloc[0]["Price ($)"] + d2.iloc[0]["Price ($)"]
 # print(get_average_price("DFW", "BOS", "2024-02-05", "2024-02-12"))
