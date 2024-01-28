@@ -8,15 +8,15 @@ const CheckBox = ({ isChecked, setIsChecked, title }) => {
       onClick={() => setIsChecked(!isChecked)}
     >
       <div
-        className={`w-4 h-4 rounded-[4px] ${
-          isChecked ? "bg-blue-500" : "border-2 border-[#DBDBDB]"
+        className={`w-5 h-5 rounded-[4px] ${
+          isChecked ? "bg-[#E63860]" : "border-2 border-[#E63860]"
         }`}
       >
         {isChecked && (
           <Image src="/icons/check.svg" width={55} height={55} alt="Check" />
         )}
       </div>
-      <div className="font-baloo text-[15px] text-[#7B7A7A]">{title}</div>
+      <div className="font-baloo text-[17px] text-black">{title}</div>
     </button>
   );
 };

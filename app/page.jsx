@@ -45,7 +45,7 @@ const InputField = ({ onChange }) => {
 
 const ProgressBar = ({ progress }) => {
   return (
-    <div className="relative w-full h-[7px] bg-[#D4D4D4] rounded-[38px] mb-4">
+    <div className="relative w-full h-[4px] bg-[#D4D4D4] rounded-[38px] mb-4">
       <span
         className={`absolute left-0 top-0 h-full rounded-[38px] bg-black`}
         style={{ width: `${progress}%` }}
@@ -57,7 +57,7 @@ const ProgressBar = ({ progress }) => {
 const InfoWidget = ({ title, stepNumber, children }) => {
   return (
     <div className="flex flex-col w-full rounded-[20px] px-11 py-3">
-      <div className="font-bold font-baloo text-[17px]">{title}</div>
+      <div className="font-bold font-baloo text-2xl mb-2">{title}</div>
       <ProgressBar progress={((stepNumber - 1) / 3) * 100} />
       {children}
     </div>
@@ -127,16 +127,23 @@ export default function Home() {
           <div className="text-7xl font-extrabold opacity-0 animate-fade-in animation-delay-1000">
             The World.
           </div>
+          <div className="text-xl animate-fade-in opacity-0 animation-delay-1000">
+            (With AA)&nbsp;
+            <Image
+              src="/aa.png"
+              width={25}
+              height={25}
+              alt="American Airlines"
+              className="inline"
+            />
+          </div>
         </div>
         {currentStep === 1 && (
-          <div className="absolute top-1/4 flex flex-col w-2/3 bg-white text-black rounded-lg opacity-0 animate-fade-in animation-delay-3000">
+          <div className="absolute top-[35%] flex flex-col w-2/3 bg-white text-black rounded-xl opacity-0 animate-fade-in animation-delay-3000">
             <>
               <InfoWidget stepNumber={1} title="1. Pick Departure Location">
-                <div className="whitespace-nowrap font-baloo font-semibold text-[40px] my-4 text-center">
-                  Which airport are you leaving from?
-                </div>
                 <InputField onChange={setSelectedDepartureLocation} />
-                <div className="flex flex-row justify-between mt-8">
+                <div className="flex flex-row justify-between mt-8 text-black">
                   <CheckBox
                     isChecked={departureIsFlexible}
                     setIsChecked={setDepartureIsFlexible}
@@ -153,23 +160,15 @@ export default function Home() {
         <AnimatePresence>
           {currentStep === 2 && (
             <motion.div
-              className="absolute top-1/4 translate-x-1/2 flex flex-col m-auto w-2/3 bg-white text-black rounded-lg opacity-0"
+              className="absolute top-[35%] translate-x-1/2 flex flex-col m-auto w-2/3  bg-white text-black rounded-xl opacity-0"
               initial={{
                 opacity: 0,
                 y: 70,
                 transition: { delay: 1, duration: 1 },
               }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{
-                opacity: 0,
-                y: -70,
-                transition: { delay: 0, duration: 1 },
-              }}
             >
               <InfoWidget stepNumber={2} title="2. Pick Destination">
-                <div className="whitespace-nowrap text-center font-baloo font-semibold text-[40px] my-4">
-                  What is your destination?
-                </div>
                 <InputField onChange={setSelectedArrivalLocation} />
                 <div className="flex flex-row justify-between mt-8">
                   <CheckBox
@@ -188,24 +187,16 @@ export default function Home() {
         <AnimatePresence>
           {currentStep === 3 && (
             <motion.div
-              className="absolute top-1/4 translate-x-1/2  flex flex-col w-2/3 bg-white text-black rounded-lg opacity-0"
+              className="absolute top-[35%] translate-x-1/2  flex flex-col w-2/3 bg-white text-black rounded-xl opacity-0"
               initial={{
                 opacity: 0,
                 y: 70,
                 transition: { delay: 1, duration: 1 },
               }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{
-                opacity: 0,
-                y: -70,
-                transition: { delay: 0, duration: 1 },
-              }}
             >
               <InfoWidget stepNumber={3} title="3. Pick Departure Date">
-                <div className="whitespace-nowrap font-baloo font-semibold text-center text-[40px] mb-4">
-                  Enter your intended departure date.
-                </div>
-                <div className="w-full h-[100px] font-sans">
+                <div className="w-full h-[100px] font-sans mt-4">
                   <DateTimePicker
                     value={selectedDepartureDate}
                     onChange={setSelectedDepartureDate}
@@ -243,7 +234,7 @@ export default function Home() {
         <AnimatePresence>
           {currentStep === 4 && (
             <motion.div
-              className="absolute top-1/4 translate-x-1/2  flex flex-col w-2/3 bg-white text-black rounded-lg opacity-0"
+              className="absolute top-[35%] translate-x-1/2  flex flex-col w-2/3 bg-white text-black rounded-xl opacity-0"
               initial={{
                 opacity: 0,
                 y: 70,
@@ -257,10 +248,7 @@ export default function Home() {
               }}
             >
               <InfoWidget stepNumber={4} title="4. Pick Arrival Date">
-                <div className="whitespace-nowrap font-baloo font-semibold text-center text-[40px] mb-4">
-                  Enter your intended arrival date.
-                </div>
-                <div className="w-full h-[100px] font-sans">
+                <div className="w-full h-[100px] font-sans mt-4">
                   <DateTimePicker
                     value={selectedArrivalDate}
                     onChange={setSelectedArrivalDate}
