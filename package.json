@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 5000",
-    "build": "next build -p 5000",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
-  "proxy": "http://localhost:5000",
   "dependencies": {
     "@next/font": "^14.1.0",
     "@nextui-org/react": "^2.2.9",
