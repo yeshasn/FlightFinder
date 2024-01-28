@@ -16,7 +16,7 @@ module.exports = {
         "go-to-top": {
           "0%": {},
           "100%": {
-            top: 12,
+            top: 20,
             left: "50%",
             transform: "translateX(-50%) translateY(0)",
             fontSize: "4rem",
