@@ -4,6 +4,7 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    require.resolve("react-widgets/styles.css"),
   ],
   theme: {
     extend: {
@@ -12,7 +13,10 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        bogart: ["var(--font-bogart)"],
+      },
     },
   },
-  plugins: [],
+  plugins: [require("react-widgets-tailwind")],
 };

@@ -1,7 +1,21 @@
-import { Inter } from "next/font/google";
+import localFont from "@next/font/local";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const bogart = localFont({
+  src: [
+    {
+      path: "../public/fonts/bogart/Bogart-SemiBold-Italic-trial.ttf",
+      style: "italic",
+      weight: "600",
+    },
+    {
+      path: "../public/fonts/bogart/Bogart-Extrabold-Italic-trial.ttf",
+      style: "italic",
+      weight: "800",
+    },
+  ],
+  variable: "--font-bogart",
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -10,8 +24,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`${bogart.variable} font-sans`}>
+      <body>{children}</body>
     </html>
   );
 }
