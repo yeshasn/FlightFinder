@@ -1,8 +1,5 @@
-node_modules
-.next
-.next/cache
-.next
-backend/test/bin
-backend/test/include
-backend/test/lib
-.next/cache/webpack/
+node_modules/
+.next/
+backend/test/bin/
+backend/test/include/
+backend/test/lib/
