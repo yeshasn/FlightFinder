@@ -132,7 +132,7 @@ def getDF(dest, origin, depDate, arrDate, flexDepDate, flexArrDate):
 
 
 # RETURNS TWO JSONS - FIRST IS CHEAPEST DEPARTING FLIGHTS, SECOND IS CHEAPEST RETURNING FLIGHTS, change the return
-@app.route('/getprice', methods=['POST'])
+@app.route('/priceinfojson', methods=['POST'])
 def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateFlex, depLocFlex, arrivalLocFlex):
     fin_dfo, fin_dfr = getDF(destination, origin, depDate,
                              arrDate, depDateFlex, arrDateFlex)
@@ -156,7 +156,7 @@ def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateF
     return json_depart, json_return
 
 
-@app.route('/avgprice', methods=['POST'])
+@app.route('/getavgpricing', methods=['POST'])
 def get_average_price(origin, destination, depDate, arrDate):
     prompt_input = """
     - You will be given a origin airport IATA code, a destination airport IATA code, a departure date, and an return date
