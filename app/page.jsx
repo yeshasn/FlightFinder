@@ -78,7 +78,7 @@ export default function Home() {
   const [selectedArrivalLocation, setSelectedArrivalLocation] = useState(null);
 
   const [selectedDepartureDate, setSelectedDepartureDate] = useState(null);
-  const [selectedArrivalDate, setSelectedArrivalDate] = useSt;
+  const [selectedArrivalDate, setSelectedArrivalDate] = useState(null);
 
   const [departureObj, setDepartureObj] = useState(null);
   const [arrivalObj, setArrivalObj] = useState(null);
@@ -167,19 +167,15 @@ export default function Home() {
               }}
             >
               <InfoWidget stepNumber={2} title="2. Pick Destination">
-                <div className="whitespace-nowrap font-baloo font-semibold text-[40px] mb-4">
+                <div className="whitespace-nowrap text-center font-baloo font-semibold text-[40px] my-4">
                   What is your destination?
                 </div>
                 <InputField onChange={setSelectedArrivalLocation} />
-                <div className="font-baloo text-[20px] mt-16">
-                  Check the box below to search for cheaper air fares at nearby
-                  airports.
-                </div>
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between mt-8">
                   <CheckBox
                     isChecked={arrivalIsFlexible}
                     setIsChecked={setArrivalIsFlexible}
-                    title="Flexible Arrival Airport"
+                    title="Flexible Arrival Airport?"
                   />
                   <RedButton onClick={() => setCurrentStep(currentStep + 1)}>
                     Next
@@ -206,7 +202,7 @@ export default function Home() {
               }}
             >
               <InfoWidget stepNumber={3} title="3. Pick Departure Date">
-                <div className="whitespace-nowrap font-baloo font-semibold text-[40px] mb-4">
+                <div className="whitespace-nowrap font-baloo font-semibold text-center text-[40px] mb-4">
                   Enter your intended departure date.
                 </div>
                 <div className="w-full h-[100px] font-sans">
@@ -261,7 +257,7 @@ export default function Home() {
               }}
             >
               <InfoWidget stepNumber={4} title="4. Pick Arrival Date">
-                <div className="whitespace-nowrap font-baloo font-semibold text-[40px] mb-4">
+                <div className="whitespace-nowrap font-baloo font-semibold text-center text-[40px] mb-4">
                   Enter your intended arrival date.
                 </div>
                 <div className="w-full h-[100px] font-sans">
