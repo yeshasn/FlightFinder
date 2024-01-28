@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{},\"appUsingSizeAdjust\":false,\"pagesUsingSizeAdjust\":false}"
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/rickydas/Documents/Development/Projects/TamuHack2024/FlightFinder/app/layout\":[\"static/media/74307980278950b1-s.p.woff2\",\"static/media/3b1632eced8fd5ac-s.p.ttf\",\"static/media/45ce43921129efa4-s.p.ttf\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
