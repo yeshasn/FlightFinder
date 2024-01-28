@@ -79,15 +79,31 @@ export default function Home() {
   const [selectedDepartureDate, setSelectedDepartureDate] = useState(null);
   const [selectedArrivalDate, setSelectedArrivalDate] = useState(null);
 
+  const fetchInfo = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/test");
+
+      console.log("Response", response);
+
+      const data = await response.json();
+
+      console.log("Data:", data);
+    } catch (err) {
+      console.log("Error:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchInfo();
+  }, []);
+
   return (
     <div>
       <div className="relative flex flex-col items-center p-4 justify-betwee w-screen h-screen font-bogart text-white bg-gradient-to-b from-[#FEECC0] via-[#D1889B] to-[#5E376C]">
         <div className="absolute text-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-go-to-top animation-delay-2000">
-          <div className="text-5xl font-semibold animate-fade-in">
-            Discounted Dreams
-          </div>
+          <div className="text-5xl font-semibold animate-fade-in">Discover</div>
           <div className="text-7xl font-extrabold opacity-0 animate-fade-in animation-delay-1000">
-            Become a Reality
+            The World.
           </div>
         </div>
         {currentStep === 1 && (
@@ -120,10 +136,17 @@ export default function Home() {
           {currentStep === 2 && (
             <motion.div
               className="absolute top-1/4 translate-x-1/2 flex flex-col m-auto w-2/3 bg-white text-black rounded-lg opacity-0"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.5 }}
+              initial={{
+                opacity: 0,
+                y: 70,
+                transition: { delay: 1, duration: 1 },
+              }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{
+                opacity: 0,
+                y: -70,
+                transition: { delay: 0, duration: 1 },
+              }}
             >
               <InfoWidget stepNumber={2} title="2. Pick Destination">
                 <div className="whitespace-nowrap font-baloo font-semibold text-[40px] mb-4">
@@ -152,10 +175,17 @@ export default function Home() {
           {currentStep === 3 && (
             <motion.div
               className="absolute top-1/4 translate-x-1/2  flex flex-col w-2/3 bg-white text-black rounded-lg opacity-0"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.5 }}
+              initial={{
+                opacity: 0,
+                y: 70,
+                transition: { delay: 1, duration: 1 },
+              }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{
+                opacity: 0,
+                y: -70,
+                transition: { delay: 0, duration: 1 },
+              }}
             >
               <InfoWidget stepNumber={3} title="3. Pick Departure Date">
                 <div className="whitespace-nowrap font-baloo font-semibold text-[40px] mb-4">
@@ -192,12 +222,19 @@ export default function Home() {
           {currentStep === 4 && (
             <motion.div
               className="absolute top-1/4 translate-x-1/2  flex flex-col w-2/3 bg-white text-black rounded-lg opacity-0"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.5 }}
+              initial={{
+                opacity: 0,
+                y: 70,
+                transition: { delay: 1, duration: 1 },
+              }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{
+                opacity: 0,
+                y: -70,
+                transition: { delay: 0, duration: 1 },
+              }}
             >
-              <InfoWidget stepNumber={4} title="3. Pick Arrival Date">
+              <InfoWidget stepNumber={4} title="4. Pick Arrival Date">
                 <div className="whitespace-nowrap font-baloo font-semibold text-[40px] mb-4">
                   Enter your intended arrival date.
                 </div>
