@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 
 # Keep the dates in format YYYY-mm-dd
 airport_dict = {
@@ -194,7 +194,7 @@ def getDF(dest, origin, depDate, arrDate, flexDepDate, flexArrDate):
     return df_origin, df_return
 
 #  str      str        str     str       int          int          y/n           y/n
-# destination, origin, depDate, arrDate, depDateFlex, arrDateFlex, depLocFlex, arrivalLocFLex
+# destination, S, depDate, arrDate, depDateFlex, arrDateFlex, depLocFlex, arrivalLocFLex
 
 
 # RETURNS TWO JSONS - FIRST IS CHEAPEST DEPARTING FLIGHTS, SECOND IS CHEAPEST RETURNING FLIGHTS, change the return
@@ -231,8 +231,10 @@ def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateF
     return jsonify({"Departure": json_depart, "Return": json_return})
 
 
-@app.route('/getavgpricing', methods=['POST'])
+@app.route('/getavgpricing/<origin>/<destination>/<depDate>/<arrDate>', methods=['GET'])
 def get_average_price(origin, destination, depDate, arrDate):
+    return "yuh"
+
     prompt_input = """
     - You will be given a origin airport IATA code, a destination airport IATA code, a departure date, and an return date
     - Your task is to determine the AVERAGE cost of a roundtrip airfare ticket with certain airlines from the origin airport to the destination airport given that certain date range

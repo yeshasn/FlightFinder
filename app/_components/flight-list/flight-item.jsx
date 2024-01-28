@@ -25,10 +25,10 @@ export function FlightItem({ flightData, onSelect }) {
         <h1>{flightData.airports}</h1>
       </div>
       <div className="text-xl font-baloo text-black col-span-1">
-        <h1>{flightData.price}</h1>
+        <h1>${flightData.price}</h1>
       </div>
       <div className="flex justify-center col-span-1">
-        <RedButton className="py-px px-6" onClick={onSelect}>
+        <RedButton className="py-px px-6" onClick={() => onSelect(flightData)}>
           Select
         </RedButton>
       </div>

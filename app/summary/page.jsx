@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { useAppContext } from "../context/AppContext";
+import axios from "axios";
 
 const Widget = ({ iconSrc, title, children, ...props }) => {
   return (
@@ -15,22 +17,61 @@ const Widget = ({ iconSrc, title, children, ...props }) => {
   );
 };
 
+const formatDate = (originalDate) => {
+  const day = originalDate.getDate();
+const month = originalDate.getMonth() + 1; // Note: January is 0
+const year = originalDate.getFullYear();
+
+// Format the date as "mM/D/YYYY"
+const formattedDate = `${year}-${month}-${day}`;
+
+return formattedDate;
+}
+
 const Summary = () => {
   const [averagePrice, setAveragePrice] = useState(10.12);
+  //const {selectedDepart, selectedArrival} = useAppContext();
+
+  const selectedDepart = {
+    "id": 0,
+    "departureTime": "09:53 AM",
+    "arrivalTime": "09:53 AM",
+    "date": "2/9/2024",
+    "duration": "7 hr 53 min",
+    "airports": "JFK - DFW",
+    "price": 198
+};
+
+const selectedArrival = {
+  "id": 1,
+  "departureTime": "09:53 AM",
+  "arrivalTime": "09:53 AM",
+  "date": "2/17/2024",
+  "duration": "7 hr 53 min",
+  "airports": "DFW - JFK",
+  "price": 198
+}
+
+  console.log("Selected Depart:", selectedDepart);
+  console.log("Selected Arrival:", selectedArrival)
 
   useEffect(() => {
-    /*const fetchPrices = async () => {
+    const fetchPrices = async () => {
+      const [originAirport, destinationAirport] = selectedDepart.airports.split(" - ");
+      const departDate = formatDate(new Date(selectedDepart.date));
+      const returnDate = formatDate(new Date(selectedArrival.date));
+
+      console.log("Fetching Response");
+
       const response = await axios.get(
-        `http://127.0.0.1:3000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
-          selectedDepartureDate
-        )}/${formatDate(selectedArrivalDate)}/${parseInt(
-          departureDateFlexibility
-        )}/${parseInt(
-          arrivalDateFlexibility
-        )}/${departureIsFlexible}/${arrivalIsFlexible}`
+        `http://127.0.0.1:3000/getavgpricing/${originAirport}/${destinationAirport}/${departDate}/${returnDate}`
       );
-    };*/
-    //fetchPrices();
+
+      console.log("Response:", response);
+      
+    };
+
+    fetchPrices();
   }, []);
 
   return (
@@ -40,37 +81,29 @@ const Summary = () => {
         <div className="relative top-12 grid w-4/5 h-4/5 grid-rows-2 grid-cols-2 m-auto p-8">
           <Widget iconSrc="/icons/departure-plane.svg" title="Departure">
             <>
-              <div>Flight #: {"A2F5GA"}</div>
-              <div>Date: 02/22/2024 9:00 AM</div>
-              <div>Duration: 5 Hours 12 Minutes</div>
-              <div className="font-medium">Price: $5.12</div>
+              <div>Locations: {selectedDepart.airports}</div>
+              <div className="whitespace-nowrap">Date: {selectedDepart.date} {selectedDepart.departureTime}</div>
+              <div>Duration: {selectedDepart.duration}</div>
+              <div className="font-medium">Price: ${selectedDepart.price}</div>
             </>
           </Widget>
           <Widget
             iconSrc="/icons/arrival-plane.svg"
-            title="Arrival"
+            title="Returning"
             height={120}
             width={120}
             className="relative bottom-6"
           >
             <>
-              <div>Flight #: {"A2F5GA"}</div>
-              <div>Date: 02/22/2024 9:00 AM</div>
-              <div>Duration: 5 Hours 12 Minutes</div>
-              <div className="font-medium">Price: $5.12</div>
-            </>
-          </Widget>
-          <Widget iconSrc="/icons/hotel.svg" title="Competitors">
-            <>
-              <div>Name: {"Hilton"}</div>
-              <div>Checkin: 02/22/2024 9:00 AM</div>
-              <div>Checkout: 02/24/2024 5:00 PM</div>
-              <div className="font-medium">Price: $5.12</div>
+              <div>Locations: {selectedArrival.airports}</div>
+              <div className="whitespace-nowrap">Date: {selectedArrival.date} {selectedArrival.departureTime}</div>
+              <div>Duration: {selectedArrival.duration}</div>
+              <div className="font-medium">Price: ${selectedArrival.price}</div>
             </>
           </Widget>
           <Widget iconSrc="/icons/dollar.svg" title="Price">
             <>
-              <div>Trip Price: $5.12</div>
+              <div>Trip Price: ${selectedDepart.price + selectedArrival.price}</div>
               <div>Average Price ${averagePrice}</div>
               <div className="font-bold text-green-700 text-xl">
                 Saved ${15.36}

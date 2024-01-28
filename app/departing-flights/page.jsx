@@ -50,7 +50,7 @@ const flights = [
 // FlightList component
 export default function FlightList() {
   const router = useRouter();
-  const { departureLocations } = useAppContext();
+  const { departureLocations,setSelectedDepart  } = useAppContext();
   const controls = useAnimation();
   const [formattedDeparture, setFormattedDeparture] = useState([]);
 
@@ -97,7 +97,11 @@ export default function FlightList() {
 
   console.log("Departure Locations: ", formattedDeparture);
 
-  const handleSelect = () => {
+  const handleSelect = (flightData) => {
+    console.log("Selected Depart:", flightData)
+
+    setSelectedDepart(flightData);
+
     controls.start({ x: "-5%", transition: { duration: 0.2 } }).then(() => {
       router.push("/returning-flights");
       controls.start({ x: "0%", transition: { duration: 0.2 } });

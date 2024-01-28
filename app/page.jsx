@@ -101,6 +101,7 @@ export default function Home() {
         return date.toISOString().split("T")[0];
       };
 
+
       const response = await axios.get(
         `http://127.0.0.1:3000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
           selectedDepartureDate
@@ -111,13 +112,14 @@ export default function Home() {
         )}/${departureIsFlexible}/${arrivalIsFlexible}`
       );
 
+
       const { data } = response;
 
       const formattedDeparture = JSON.parse(data["Departure"]);
       const formattedReturn = JSON.parse(data["Return"]);
 
-      setDepartureLocations(formattedDeparture);
-      setArrivalLocations(formattedReturn);
+      setDepartureLocations(formattedDeparture.slice(0, 5));
+      setArrivalLocations(formattedReturn.slice(0, 5));
 
       router.push("/departing-flights");
     } catch (err) {

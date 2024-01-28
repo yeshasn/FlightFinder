@@ -866,6 +866,9 @@ video {
 .justify-self-center {
   justify-self: center;
 }
+.whitespace-nowrap {
+  white-space: nowrap;
+}
 .rounded-\[12px\] {
   border-radius: 12px;
 }
