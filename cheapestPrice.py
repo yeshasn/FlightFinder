@@ -1,7 +1,14 @@
-from openai import OpenAI
-from google_flight_analysis.scrape import *
-import time
 import os
+import time
+from google_flight_analysis.scrape import *
+from openai import OpenAI
+from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS from flask_cors
+
+app = Flask(__name__)
+CORS(app)
+
+
 os.environ["OPENAI_API_KEY"] = "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"
 
 # Keep the dates in format YYYY-mm-dd
@@ -124,7 +131,8 @@ def getDF(dest, origin, depDate, arrDate, flexDepDate, flexArrDate):
 # destination, origin, depDate, arrDate, depDateFlex, arrDateFlex, depLocFlex, arrivalLocFLex
 
 
-# RETURNS TWO JSONS - FIRST IS CHEAPEST DEPARTING FLIGHTS, SECOND IS CHEAPEST RETURNING FLIGHTS
+# RETURNS TWO JSONS - FIRST IS CHEAPEST DEPARTING FLIGHTS, SECOND IS CHEAPEST RETURNING FLIGHTS, change the return
+@app.route('/getprice', methods=['POST'])
 def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateFlex, depLocFlex, arrivalLocFlex):
     fin_dfo, fin_dfr = getDF(destination, origin, depDate,
                              arrDate, depDateFlex, arrDateFlex)
@@ -148,6 +156,7 @@ def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateF
     return json_depart, json_return
 
 
+@app.route('/avgprice', methods=['POST'])
 def get_average_price(origin, destination, depDate, arrDate):
     prompt_input = """
     - You will be given a origin airport IATA code, a destination airport IATA code, a departure date, and an return date
@@ -199,5 +208,7 @@ def get_average_price(origin, destination, depDate, arrDate):
 # d1.head().to_json('example.json', orient="records")
 
 # cheapest = d1.iloc[0]["Price ($)"] + d2.iloc[0]["Price ($)"]
-print(get_average_price("DFW", "BOS", "2024-02-05", "2024-02-12"))
+# print(get_average_price("DFW", "BOS", "2024-02-05", "2024-02-12"))
 # print("You pay: " + str(cheapest))
+if __name__ == '__main__':
+    app.run(debug=True)
