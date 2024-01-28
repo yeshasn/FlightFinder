@@ -90,7 +90,7 @@ export default function Home() {
 
       console.log(
         "Input:",
-        `http://127.0.0.1:5000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
+        `http://127.0.0.1:3000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
           selectedDepartureDate
         )}/${formatDate(selectedArrivalDate)}/${parseInt(
           departureDateFlexibility
@@ -100,22 +100,21 @@ export default function Home() {
       );
 
       const response = await axios.get(
-        `http://127.0.0.1:5000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
+        `http://127.0.0.1:3000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
           selectedDepartureDate
         )}/${formatDate(selectedArrivalDate)}/${parseInt(
           departureDateFlexibility
         )}/${parseInt(
           arrivalDateFlexibility
         )}/${departureIsFlexible}/${arrivalIsFlexible}`
+
       );
       console.log("Response", response);
 
-      const data = await response.json();
+      const {data} = response;
 
-      const formattedData = JSON.parse(data);
-
-      const formattedDeparture = formattedData["Departure"];
-      const formattedReturn = formattedData["Return"];
+      const formattedDeparture = JSON.parse(data["Departure"]);
+      const formattedReturn = JSON.parse(data["Return"]);
 
       console.log("Formatted formattedDeparture:", formattedDeparture);
       console.log("Formatted Return:", formattedReturn);
