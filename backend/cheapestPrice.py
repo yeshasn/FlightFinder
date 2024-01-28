@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 
 # Keep the dates in format YYYY-mm-dd
 airport_dict = {
@@ -233,21 +233,18 @@ def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateF
 
 @app.route('/getavgpricing/<origin>/<destination>/<depDate>/<arrDate>', methods=['GET'])
 def get_average_price(origin, destination, depDate, arrDate):
-    return "yuh"
-
     prompt_input = """
     - You will be given a origin airport IATA code, a destination airport IATA code, a departure date, and an return date
-    - Your task is to determine the AVERAGE cost of a roundtrip airfare ticket with certain airlines from the origin airport to the destination airport given that certain date range
+    - Your task is to determine the AVERAGE cost of a roundtrip airfare ticket with these three airlines - United, Southwest, and Delta - from the origin airport to the destination airport given that certain date range
     - The date will be formatted YYYY-mm-dd, so you CAN DISREGARD THE YEAR
 
-    - Your response should read: The average price of a flight from (origin) to (destination) with (airline) is (average) during this date range.
+    Your response should look like this:
+    - United: roughly $(estimated price)
+    - Southwest: roughly $(estimated price)
+    - Delta: roughly $(estimated price)
 
-    Do it with the following airlines
-    - United Airlines
-    - Delta Airlines
-    - Southwest Airlines
 
-    So in total you should have 3 output statements
+    So in total you should have 3 output statements and keep it to one sentence.
     """
 
     user_input = rf'''

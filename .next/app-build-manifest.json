@@ -12,6 +12,11 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/summary/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/summary/page.js"
+    ],
     "/departing-flights/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -21,16 +26,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/returning-flights/page.js"
-    ],
-    "/hotels/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/hotels/page.js"
-    ],
-    "/summary/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/summary/page.js"
     ],
     "/not-found": [
       "static/chunks/webpack.js",

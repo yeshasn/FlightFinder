@@ -626,6 +626,9 @@ video {
 .top-\[35\%\] {
   top: 35%;
 }
+.bottom-4 {
+  bottom: 1rem;
+}
 .col-span-1 {
   grid-column: span 1 / span 1;
 }
