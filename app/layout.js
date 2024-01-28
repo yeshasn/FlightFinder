@@ -1,5 +1,13 @@
-import localFont from "@next/font/local";
 import "./globals.css";
+
+import localFont from "@next/font/local";
+import { Baloo_Chettan_2 } from "next/font/google";
+
+const balooChettan = Baloo_Chettan_2({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-baloo",
+});
 
 const bogart = localFont({
   src: [
@@ -24,7 +32,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${bogart.variable} font-sans`}>
+    <html
+      lang="en"
+      className={`${bogart.variable} ${balooChettan.variable} font-sans`}
+    >
       <body>{children}</body>
     </html>
   );

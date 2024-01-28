@@ -15,20 +15,17 @@ const InputField = () => {
 
   return (
     <div className="flex flex-col gap-y-8 py-4">
-      <div
-        className={`relative flex flex-row items-center gap-x-2.5 left-4 text-4xl text-black`}
-      >
+      {false && (
         <Image
           src="/icons/departure-plane.svg"
           width={50}
           height={50}
           alt="Departure Icon"
         />
-        <div className="self-end">Departing From</div>
-      </div>
+      )}
       <DropdownList
         data={airportData}
-        placeholder="Where we going?"
+        placeholder="Enter a city name"
         dataKey={"value"}
         textField={"label"}
         className="bg-red-500"
@@ -36,6 +33,27 @@ const InputField = () => {
         style={{ background: "red" }}
         onFocus={() => setDidSelect(true)}
       />
+    </div>
+  );
+};
+
+const ProgressBar = ({ progress }) => {
+  return (
+    <div className="relative w-full h-[7px] bg-[#D4D4D4] rounded-[38px]">
+      <span
+        className={`absolute left-0 top-0 h-full rounded-[38px] bg-black`}
+        style={{ width: `${progress}%` }}
+      ></span>
+    </div>
+  );
+};
+
+const InfoWidget = ({ title, stepNumber, children }) => {
+  return (
+    <div className="flex flex-col w-2/3 h-2/3 rounded-[20px] px-11 py-3">
+      <div className="font-bold font-baloo text-[17px]">{title}</div>
+      <ProgressBar progress={((stepNumber - 1) / 3) * 100} />
+      {children}
     </div>
   );
 };
@@ -54,16 +72,15 @@ export default function Home() {
             Become a Reality
           </div>
         </div>
-
         {currentStep === 1 && (
           <div className="flex flex-col m-auto w-2/3 bg-white text-black rounded-lg opacity-0 animate-fade-in animation-delay-3000">
             <>
-              <div className="relative  aspect-[20/3] text-black rounded-md">
+              <InfoWidget stepNumber={1} title="1. Pick Departure Location">
+                <div className="whitespace-nowrap font-baloo font-semibold text-[40px]">
+                  Which airport are you leaving from?
+                </div>
                 <InputField />
-              </div>
-              <button className="self-end bg-white text-black px-8 py-2 rounded-md text-xl">
-                Next
-              </button>
+              </InfoWidget>
             </>
           </div>
         )}

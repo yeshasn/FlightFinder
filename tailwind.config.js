@@ -57,6 +57,7 @@ module.exports = {
       },
       fontFamily: {
         bogart: ["var(--font-bogart)"],
+        baloo: ["var(--font-baloo)"],
       },
       animation: {
         "fade-in": "fade-in 1s ease-in-out forwards",
