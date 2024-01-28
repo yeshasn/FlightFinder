@@ -8,6 +8,48 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "go-to-top": {
+          "0%": {},
+          "100%": {
+            top: 12,
+            left: "50%",
+            transform: "translateX(-50%) translateY(0)",
+            fontSize: "4rem",
+          },
+        },
+        "rotate": {
+          "0%": {
+            transform: "translate(-150px, 50px) scale(0.4) rotate(0deg)",
+            opacity: 1,
+            zIndex: 1,
+          },
+          "45%": {
+            transform: "translate(150px, -50px) scale(0.4) rotate(0deg)",
+            opacity: 1,
+            zIndex: 1,
+          },
+          "55%": {
+            transform: "translate(150px, -50px) scale(0.4) rotate(180deg)",
+            opacity: 1,
+            zIndex: 3,
+          },
+          "95%": {
+            transform: "translate(-150px, 50px) scale(0.4) rotate(180deg)",
+            opacity: 1,
+            zIndex: 3,
+          },
+          "100%": {
+            transform: "translate(-150px, 50px) scale(0.4) rotate(0deg)",
+            opacity: 1,
+            zIndex: 3,
+          },
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -16,7 +58,15 @@ module.exports = {
       fontFamily: {
         bogart: ["var(--font-bogart)"],
       },
+      animation: {
+        "fade-in": "fade-in 1s ease-in-out forwards",
+        "go-to-top": "go-to-top 1s ease-in-out forwards",
+        "rotate": "rotate 4s ease-in-out infinite",
+      },
     },
   },
-  plugins: [require("react-widgets-tailwind")],
+  plugins: [
+    require("react-widgets-tailwind"),
+    require("tailwindcss-animation-delay"),
+  ],
 };
