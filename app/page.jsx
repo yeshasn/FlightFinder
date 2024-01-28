@@ -15,6 +15,7 @@ import CheckBox from "./_components/check-box";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker, { Calendar } from "react-modern-calendar-datepicker";
 import { DateTimePicker } from "react-widgets";
+import axios from "axios";
 
 const InputField = ({ onChange }) => {
   const [didSelect, setDidSelect] = useState(false);
@@ -69,8 +70,8 @@ export default function Home() {
   const [departureIsFlexible, setDepartureIsFlexible] = useState(false);
   const [arrivalIsFlexible, setArrivalIsFlexible] = useState(false);
 
-  const [departureTimeIsFlexible, setDepartureTimeIsFlexible] = useState(false);
-  const [arrivalTimeIsFlexible, setArrivalTimeIsFlexible] = useState(false);
+  const [departureDateFlexibility, setDepartureDateFlexibility] = useState(0);
+  const [arrivalDateFlexibility, setArrivalDateFlexibility] = useState(0);
 
   const [selectedDepartureLocation, setSelectedDepartureLocation] =
     useState(null);
@@ -80,8 +81,37 @@ export default function Home() {
   const [selectedArrivalDate, setSelectedArrivalDate] = useState(null);
 
   const fetchInfo = async () => {
+    console.log("yo");
+
     try {
-      const response = await fetch("http://localhost:3000/test");
+      const formatDate = (date) => {
+        return date.toISOString().split("T")[0];
+      };
+
+      /* console.log(
+        "Input:",
+        `http://127.0.0.1:5000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
+          selectedDepartureDate
+        )}/${formatDate(selectedArrivalDate)}/${parseInt(
+          departureDateFlexibility
+        )}/${parseInt(
+          arrivalDateFlexibility
+        )}/${departureIsFlexible}/${arrivalIsFlexible}`
+      );
+
+      const response = await axios.get(
+        `http://127.0.0.1:5000/priceinfojson/${selectedArrivalLocation}/${selectedDepartureLocation}/${formatDate(
+          selectedDepartureDate
+        )}/${formatDate(selectedArrivalDate)}/${parseInt(
+          departureDateFlexibility
+        )}/${parseInt(
+          arrivalDateFlexibility
+        )}/${departureIsFlexible}/${arrivalIsFlexible}`
+      );*/
+
+      const response = await axios.get(
+        "http://127.0.0.1:5000/priceinfojson/JFK/DFW/2024-02-06/2024-02-19/0/0/true/false"
+      );
 
       console.log("Response", response);
 
@@ -97,6 +127,12 @@ export default function Home() {
     fetchInfo();
   }, []);
 
+  const adjustInputWidth = (input) => {
+    // Set the size to the length of the input's value (or placeholder if no value)
+    input.style.width =
+      (input.value.length || input.placeholder.length) + 2 + "ch";
+  };
+
   return (
     <div>
       <div className="relative flex flex-col items-center p-4 justify-betwee w-screen h-screen font-bogart text-white bg-gradient-to-b from-[#FEECC0] via-[#D1889B] to-[#5E376C]">
@@ -110,19 +146,15 @@ export default function Home() {
           <div className="absolute top-1/4 flex flex-col w-2/3 bg-white text-black rounded-lg opacity-0 animate-fade-in animation-delay-3000">
             <>
               <InfoWidget stepNumber={1} title="1. Pick Departure Location">
-                <div className="whitespace-nowrap font-baloo font-semibold text-[40px] mb-4">
+                <div className="whitespace-nowrap font-baloo font-semibold text-[40px] my-4 text-center">
                   Which airport are you leaving from?
                 </div>
                 <InputField onChange={setSelectedDepartureLocation} />
-                <div className="font-baloo text-[20px] mt-16">
-                  Check the box below to search for cheaper air fares at nearby
-                  airports.
-                </div>
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between mt-8">
                   <CheckBox
                     isChecked={departureIsFlexible}
                     setIsChecked={setDepartureIsFlexible}
-                    title="Flexible Starting Airport"
+                    title="Flexible Starting Airport?"
                   />
                   <RedButton onClick={() => setCurrentStep(currentStep + 1)}>
                     Next
@@ -161,7 +193,7 @@ export default function Home() {
                   <CheckBox
                     isChecked={arrivalIsFlexible}
                     setIsChecked={setArrivalIsFlexible}
-                    title="Flexible Starting Airport"
+                    title="Flexible Arrival Airport"
                   />
                   <RedButton onClick={() => setCurrentStep(currentStep + 1)}>
                     Next
@@ -200,16 +232,24 @@ export default function Home() {
                     containerClassName="w-full h-full font-baloo font-normal text-4xl"
                   />
                 </div>
-                <div className="font-baloo text-[20px] mt-16">
-                  Check the box below to search for cheaper air fares at other
-                  departure dates.
-                </div>
-                <div className="flex flex-row justify-between">
-                  <CheckBox
-                    isChecked={departureTimeIsFlexible}
-                    setIsChecked={setDepartureTimeIsFlexible}
-                    title="Flexible Date"
-                  />
+                <div className="flex flex-row items-center justify-between font-baloo text-[17px] text-black mt-16">
+                  <div className="flex items-center gap-x-2">
+                    <div>Within</div>
+                    <input
+                      value={departureDateFlexibility}
+                      onChange={(e) => {
+                        setDepartureDateFlexibility(e.target.value);
+                        adjustInputWidth(e.target);
+                      }}
+                      onFocus={(e) => {
+                        setDepartureDateFlexibility("");
+                        adjustInputWidth(e.target);
+                      }}
+                      placeholder="0"
+                      className="p-2 w-auto border-2 border-[#D4D4D4] rounded-md"
+                    />
+                    <div>Days</div>
+                  </div>
                   <RedButton onClick={() => setCurrentStep(currentStep + 1)}>
                     Next
                   </RedButton>
@@ -247,18 +287,31 @@ export default function Home() {
                     containerClassName="w-full h-full font-baloo font-normal text-4xl"
                   />
                 </div>
-                <div className="font-baloo text-[20px] mt-16">
-                  Check the box below to search for cheaper air fares at other
-                  arrival dates.
-                </div>
-                <div className="flex flex-row justify-between">
-                  <CheckBox
-                    isChecked={arrivalTimeIsFlexible}
-                    setIsChecked={setArrivalTimeIsFlexible}
-                    title="Flexible Arrival Airport"
-                  />
-                  <RedButton onClick={() => setCurrentStep(currentStep + 1)}>
-                    Next
+                <div className="flex flex-row items-center justify-between font-baloo text-[17px] text-black mt-16">
+                  <div className="flex items-center gap-x-2">
+                    <div>Within</div>
+                    <input
+                      value={departureDateFlexibility}
+                      onChange={(e) => {
+                        setDepartureDateFlexibility(e.target.value);
+                        adjustInputWidth(e.target);
+                      }}
+                      onFocus={(e) => {
+                        setDepartureDateFlexibility("");
+                        adjustInputWidth(e.target);
+                      }}
+                      placeholder="0"
+                      className="p-2 w-auto border-2 border-[#D4D4D4] rounded-md"
+                    />
+                    <div>Days</div>
+                  </div>
+                  <RedButton
+                    onClick={() => {
+                      setCurrentStep(currentStep + 1);
+                      fetchInfo();
+                    }}
+                  >
+                    Confirm
                   </RedButton>
                 </div>
               </InfoWidget>
