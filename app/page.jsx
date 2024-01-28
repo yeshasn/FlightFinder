@@ -9,6 +9,10 @@ import Image from "next/image";
 
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import LoadingTing from "./_components/loading";
+import RedButton from "./_components/red-button";
+import CheckBox from "./_components/check-box";
+import "react-modern-calendar-datepicker/lib/DatePicker.css";
+import { Calendar } from "react-modern-calendar-datepicker";
 
 const InputField = () => {
   const [didSelect, setDidSelect] = useState(false);
@@ -28,9 +32,7 @@ const InputField = () => {
         placeholder="Enter a city name"
         dataKey={"value"}
         textField={"label"}
-        className="bg-red-500"
-        containerClassName="bg-red-500 h-[100px] text-4xl bg-orange-500 cursor-text"
-        style={{ background: "red" }}
+        containerClassName="h-[100px] font-baloo font-normal text-4xl cursor-text"
         onFocus={() => setDidSelect(true)}
       />
     </div>
@@ -39,7 +41,7 @@ const InputField = () => {
 
 const ProgressBar = ({ progress }) => {
   return (
-    <div className="relative w-full h-[7px] bg-[#D4D4D4] rounded-[38px]">
+    <div className="relative w-full h-[7px] bg-[#D4D4D4] rounded-[38px] mb-4">
       <span
         className={`absolute left-0 top-0 h-full rounded-[38px] bg-black`}
         style={{ width: `${progress}%` }}
@@ -50,7 +52,7 @@ const ProgressBar = ({ progress }) => {
 
 const InfoWidget = ({ title, stepNumber, children }) => {
   return (
-    <div className="flex flex-col w-2/3 h-2/3 rounded-[20px] px-11 py-3">
+    <div className="flex flex-col w-full rounded-[20px] px-11 py-3">
       <div className="font-bold font-baloo text-[17px]">{title}</div>
       <ProgressBar progress={((stepNumber - 1) / 3) * 100} />
       {children}
@@ -60,6 +62,9 @@ const InfoWidget = ({ title, stepNumber, children }) => {
 
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [departureIsFlexible, setDepartureIsFlexible] = useState(false);
+  const [selectedDepartureDate, setSelectedDepartureDate] = useState(null);
+  const [selectedArrivalDate, setSelectedArrivalDate] = useState(null);
 
   return (
     <div>
@@ -76,10 +81,24 @@ export default function Home() {
           <div className="flex flex-col m-auto w-2/3 bg-white text-black rounded-lg opacity-0 animate-fade-in animation-delay-3000">
             <>
               <InfoWidget stepNumber={1} title="1. Pick Departure Location">
-                <div className="whitespace-nowrap font-baloo font-semibold text-[40px]">
+                <div className="whitespace-nowrap font-baloo font-semibold text-[40px] mb-4">
                   Which airport are you leaving from?
                 </div>
                 <InputField />
+                <div className="font-baloo text-[20px] mt-16">
+                  Check the box below to search for cheaper air fares at nearby
+                  airports.
+                </div>
+                <div className="flex flex-row justify-between">
+                  <CheckBox
+                    isChecked={departureIsFlexible}
+                    setIsChecked={setDepartureIsFlexible}
+                    title="Flexible Starting Airport"
+                  />
+                  <RedButton onClick={() => setCurrentStep(currentStep + 1)}>
+                    Next
+                  </RedButton>
+                </div>
               </InfoWidget>
             </>
           </div>
@@ -93,20 +112,67 @@ export default function Home() {
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.5 }}
             >
-              <>
-                <div className="relative  aspect-[20/3] text-black rounded-md">
-                  <InputField />
+              <InfoWidget stepNumber={2} title="2. Pick Destination">
+                <div className="whitespace-nowrap font-baloo font-semibold text-[40px] mb-4">
+                  What is your destination?
                 </div>
-                <button className="self-end bg-white text-black px-8 py-2 rounded-md text-xl">
-                  Next
-                </button>
-              </>
+                <InputField />
+                <div className="font-baloo text-[20px] mt-16">
+                  Check the box below to search for cheaper air fares at nearby
+                  airports.
+                </div>
+                <div className="flex flex-row justify-between">
+                  <CheckBox
+                    isChecked={departureIsFlexible}
+                    setIsChecked={setDepartureIsFlexible}
+                    title="Flexible Starting Airport"
+                  />
+                  <RedButton onClick={() => setCurrentStep(currentStep + 1)}>
+                    Next
+                  </RedButton>
+                </div>
+              </InfoWidget>
             </motion.div>
           )}
         </AnimatePresence>
-        {currentStep === 3 && <LoadingTing />}
-
-        <button onClick={() => setCurrentStep(currentStep + 1)}>next</button>
+        <AnimatePresence>
+          {currentStep === 3 && (
+            <motion.div
+              className="absolute top-1/2 left-1/2 flex flex-col m-auto w-2/3 bg-white text-black rounded-lg opacity-0"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.5 }}
+            >
+              <InfoWidget stepNumber={3} title="3. Pick Departure Date">
+                <div className="whitespace-nowrap font-baloo font-semibold text-[40px] mb-4">
+                  Enter your intended departure date.
+                </div>
+                <div className="relative h-[100px] w-full bg-red-500">
+                  <div className="top-[calc(100%+12px)] absolute font-sans">
+                    <Calendar
+                      value={selectedDepartureDate}
+                      onChange={setSelectedDepartureDate}
+                    />
+                  </div>
+                </div>
+                <div className="font-baloo text-[20px] mt-16">
+                  Check the box below to search for cheaper air fares at nearby
+                  airports.
+                </div>
+                <div className="flex flex-row justify-between">
+                  <CheckBox
+                    isChecked={departureIsFlexible}
+                    setIsChecked={setDepartureIsFlexible}
+                    title="Flexible Starting Airport"
+                  />
+                  <RedButton>Next</RedButton>
+                </div>
+              </InfoWidget>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {currentStep === 4 && <LoadingTing />}
       </div>
     </div>
   );
