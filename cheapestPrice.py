@@ -334,8 +334,6 @@ def getHotels(dest, checkin, checkout):
         print(f"Error: {response.status_code}, {response.text}")
 
 def get_image(hotel_name):
-    api_key = 'AIzaSyBaiHeqL8Re5CBib94qjWauL7vAsCFcbHY'
-    cx = 'd4a5d14496aa14057'
     query = hotel_name
 
     # Define the API endpoint
