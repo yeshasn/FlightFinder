@@ -7,7 +7,9 @@ from openai import OpenAI
 from google_flight_analysis.scrape import *
 import time
 import os
-os.environ["OPENAI_API_KEY"] = "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"
+
+#os.environ["OPENAI_API_KEY"]
+
 
 # Keep the dates in format YYYY-mm-dd
 airport_dict = {

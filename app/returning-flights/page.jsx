@@ -65,7 +65,7 @@ function ReturningFlights() {
         const price = flightData["Price ($)"];
         const duration = flightData["Travel Time"];
         const date = new Date(flightData["Arrival datetime"]);
-        const departureTimestamp = new Date(flightData["Arrival datetime"]);
+        const departureTimestamp = new Date(flightData["Departure datetime"]);
         const departureTime = departureTimestamp.toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
@@ -82,7 +82,8 @@ function ReturningFlights() {
         // Format the date as "M/D/YYYY"
         const formattedDate = `${month}/${day}/${year}`;
 
-        console.log(formattedDate);
+        console.log("Departure Time:", departureTime);
+        console.log("Arrival Time:", arrivalTime)
 
         return {
           id: index,

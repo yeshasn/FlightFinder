@@ -5,12 +5,12 @@ from google_flight_analysis.scrape import *
 from openai import OpenAI
 from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import CORS from flask_cors
+import pandas as pd
 
 app = Flask(__name__)
 CORS(app)
 
-
-os.environ["OPENAI_API_KEY"] = "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"
+#os.environ["OPENAI_API_KEY"]
 
 # Keep the dates in format YYYY-mm-dd
 airport_dict = {
@@ -158,6 +158,10 @@ def get_dates(date, num_days):
 def getDF(dest, origin, depDate, arrDate, flexDepDate, flexArrDate):
     depDateList = get_dates(depDate, flexDepDate)
     arrDateList = get_dates(arrDate, flexArrDate)
+
+    print("Dep Date List:", depDateList)
+    print("Arr Date List:", arrDateList)
+
     dates = []
     for i in depDateList:
         dates.extend([dest, origin, i])
@@ -211,13 +215,17 @@ def get_final_price(destination, origin, depDate, arrDate, depDateFlex, arrDateF
     if depLocFlex == "true":
         temp_dfo, temp_dfr = getDF(
             destination, airport_dict[origin][0], depDate, arrDate, depDateFlex, arrDateFlex)
-        fin_dfo = fin_dfo.append(temp_dfo, ignore_index=True)
-        fin_dfr = fin_dfr.append(temp_dfr, ignore_index=True)
+        # fin_dfo = fin_dfo.append(temp_dfo, ignore_index=True)
+        fin_dfo = pd.concat([fin_dfo, temp_dfo], ignore_index=True)
+        # fin_dfr = fin_dfr.append(temp_dfr, ignore_index=True)
+        fin_dfr = pd.concat([fin_dfr, temp_dfr], ignore_index=True)
     if arrivalLocFlex == "true":
         temp_dfo, temp_dfr = getDF(
             airport_dict[destination][0], origin, depDate, arrDate, depDateFlex, arrDateFlex)
-        fin_dfo = fin_dfo.append(temp_dfo, ignore_index=True)
-        fin_dfr = fin_dfr.append(temp_dfr, ignore_index=True)
+        # fin_dfo = fin_dfo.append(temp_dfo, ignore_index=True)
+        fin_dfo = pd.concat([fin_dfo, temp_dfo], ignore_index=True)
+        # fin_dfr = fin_dfr.append(temp_dfr, ignore_index=True)
+        fin_dfr = pd.concat([fin_dfr, temp_dfr], ignore_index=True)
 
     fin_dfo = fin_dfo.sort_values(by='Price ($)')
     fin_dfr = fin_dfr.sort_values(by='Price ($)')
@@ -244,7 +252,7 @@ def get_average_price(origin, destination, depDate, arrDate):
     - Delta: roughly $(estimated price)
 
 
-    So in total you should have 3 output statements and keep it to one sentence.
+    So in total you should have 3 output statements and keep it to one sentence. Please add around $100 to each of the these values.
     """
 
     user_input = rf'''
@@ -277,7 +285,6 @@ def get_average_price(origin, destination, depDate, arrDate):
 def getHotels(dest, checkin, checkout):
     url = "https://api.makcorps.com/mapping"
     params = {
-        'api_key': '65b610a7e731c164ea217018',
         # change this based on some value saved from the user's destination
         'name': city_dict[dest]
     }
@@ -305,7 +312,6 @@ def getHotels(dest, checkin, checkout):
         'adults': '1',
         'checkin': checkin,
         'checkout': checkout,
-        'api_key': '65b610a7e731c164ea217018'
     }
 
     response = requests.get(url, params=params)

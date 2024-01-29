@@ -9,8 +9,7 @@ from flask_cors import CORS  # Import CORS from flask_cors
 app = Flask(__name__)
 CORS(app)
 
-
-os.environ["OPENAI_API_KEY"] = "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"
+#os.environ["OPENAI_API_KEY"]
 
 # Keep the dates in format YYYY-mm-dd
 airport_dict = {
