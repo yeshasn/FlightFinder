@@ -8,7 +8,7 @@ from google_flight_analysis.scrape import *
 import time
 import os
 
-#os.environ["OPENAI_API_KEY"]
+#os.environ["OPENAI_API_KEY"] needs to be changed
 
 
 # Keep the dates in format YYYY-mm-dd
