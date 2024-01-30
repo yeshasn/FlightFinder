@@ -1,4 +1,4 @@
-// File: E:\OneDrive\OneDrive - Texas A&M University\FlightFinder\app\page.jsx
+// File: /Users/yeshn/Desktop/FlightFinder/app/page.jsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

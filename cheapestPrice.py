@@ -9,7 +9,8 @@ from flask_cors import CORS  # Import CORS from flask_cors
 app = Flask(__name__)
 CORS(app)
 
-#os.environ["OPENAI_API_KEY"]
+# os.environ["OPENAI_API_KEY"]
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Keep the dates in format YYYY-mm-dd
 airport_dict = {
@@ -241,7 +242,7 @@ def get_average_price(origin, destination, depDate, arrDate):
     - Return date: {arrDate} 
 
     '''
-    client = OpenAI()
+    client = OpenAI(api_key=openai_api_key)
 
     response = client.chat.completions.create(model="gpt-3.5-turbo",
                                               messages=[
