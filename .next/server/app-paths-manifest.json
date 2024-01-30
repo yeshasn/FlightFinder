@@ -1,7 +1,6 @@
 {
-  "/not-found": "app/not-found.js",
   "/page": "app/page.js",
-  "/departing-flights/page": "app/departing-flights/page.js",
   "/returning-flights/page": "app/returning-flights/page.js",
+  "/departing-flights/page": "app/departing-flights/page.js",
   "/summary/page": "app/summary/page.js"
 }
